@@ -10,7 +10,8 @@ class MyApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        database = Room.databaseBuilder(this, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
+        database = Room.databaseBuilder(this, AppDatabase::class.java, AppDatabase.DATABASE_NAME)
+            .fallbackToDestructiveMigration().build()
     }
 
     fun getDatabase(): AppDatabase {

@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.wristband.eko.adapters.AgentAdapter
-import com.wristband.eko.databinding.AgentViewBinding
 import com.wristband.eko.databinding.FragmentAgentBinding
+import com.wristband.eko.entities.Agent
+import com.wristband.eko.vm.AgentViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -18,12 +20,15 @@ import com.wristband.eko.databinding.FragmentAgentBinding
  */
 class AgentFragment : Fragment() {
 
+    lateinit var viewModel: AgentViewModel
+    private var list = mutableListOf<Agent>()
+
     lateinit var adapter: AgentAdapter
     private lateinit var binding: FragmentAgentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = AgentAdapter()
+        viewModel = ViewModelProvider(requireActivity())[AgentViewModel::class.java]
     }
 
     companion object {
@@ -43,13 +48,29 @@ class AgentFragment : Fragment() {
     }
 
     private fun initView() {
+        viewModel.loadAgents()
+        adapter = AgentAdapter(requireActivity().applicationContext, list)
+
+        //
         binding.recycler.adapter = adapter
         val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.recycler.addItemDecoration(itemDecoration)
 
+        //
         binding.add.setOnClickListener {
             val intent = Intent(context, RegisterActivity::class.java)
             startActivity(intent)
+        }
+
+        //
+        viewModel.agents.observe(requireActivity()) { response ->
+            if(response == null) return@observe
+            list.addAll(response.body)
+            if(list.size > 0) {
+                binding.empty.visibility = View.GONE
+                binding.recycler.visibility = View.VISIBLE
+            }
+            adapter.notifyDataSetChanged()
         }
     }
 }

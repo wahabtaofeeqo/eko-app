@@ -13,7 +13,7 @@ interface AgentDao {
     fun getAll(): List<Agent>
 
     @Query("SELECT * FROM agents WHERE username = :username LIMIT 1")
-    fun findByUsername(username: String): Agent
+    fun findByUsername(username: String): Agent?
 
     @Insert
     fun insert(agent: Agent)

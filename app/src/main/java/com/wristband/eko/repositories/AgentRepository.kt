@@ -15,7 +15,17 @@ class AgentRepository(private val application: Application) {
         dao = app.getDatabase().agentDao()
     }
 
+    fun create(agent: Agent) {
+        dao.insert(agent)
+    }
+
+    fun getAll(): List<Agent> {
+        return  dao.getAll()
+    }
+
     fun findByUsername(username: String): Agent? {
         return  dao.findByUsername(username)
     }
+
+
 }

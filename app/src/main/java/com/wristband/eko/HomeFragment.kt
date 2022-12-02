@@ -1,14 +1,24 @@
 package com.wristband.eko
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.wristband.eko.adapters.AttendanceAdapter
 import com.wristband.eko.adapters.UserAdapter
 import com.wristband.eko.databinding.FragmentHomeBinding
+import com.wristband.eko.entities.Attendance
+import com.wristband.eko.entities.AttendanceWithUser
+import com.wristband.eko.vm.SharedViewModel
+import es.dmoral.toasty.Toasty
 
 /**
  * A simple [Fragment] subclass.
@@ -17,12 +27,18 @@ import com.wristband.eko.databinding.FragmentHomeBinding
  */
 class HomeFragment : Fragment() {
 
-    private lateinit var adapter: UserAdapter
-    lateinit var binding: FragmentHomeBinding
+    private var list = mutableListOf<AttendanceWithUser>()
+    private lateinit var viewModel: SharedViewModel
+    private lateinit var adapter: AttendanceAdapter
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = UserAdapter()
+        adapter = AttendanceAdapter(requireContext(), list)
+        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
+        //
+        viewModel.loadAttendance()
     }
 
     companion object {
@@ -42,8 +58,53 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView() {
+
         binding.recycler.adapter = adapter
         val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.recycler.addItemDecoration(itemDecoration)
+
+        //
+        viewModel.attendances.observe(requireActivity()) { response ->
+            if(response == null) return@observe
+
+            list.clear()
+            list.addAll(response.body)
+            if(list.size > 0) {
+                binding.empty.visibility = View.GONE
+                binding.recycler.visibility = View.VISIBLE
+            }
+            adapter.notifyDataSetChanged()
+        }
+
+        //
+        binding.export.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                viewModel.doExport()
+            }
+            else {
+                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }
+
+        //
+        viewModel.export.observe(requireActivity()) { response ->
+            if(response == null) return@observe
+            if(response.status) {
+                Toasty.success(requireContext(), response.message).show()
+            }
+            else {
+                Toasty.error(requireContext(), response.message).show()
+            }
+        }
+    }
+
+    //
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if(it) {
+            viewModel.doExport()
+        }
+        else {
+            Toasty.error(requireContext(), "You need to give permission to Export").show()
+        }
     }
 }
