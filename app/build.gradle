@@ -53,6 +53,7 @@ dependencies {
     def room_version = "2.4.3"
     def nav_version = "2.5.3"
     def lifecycle_version = "2.5.1"
+    def paging_version = "2.1.2"
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
@@ -70,6 +71,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     implementation 'com.github.GrenderG:Toasty:1.5.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'

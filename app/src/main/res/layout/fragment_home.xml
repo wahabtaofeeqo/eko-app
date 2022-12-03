@@ -7,32 +7,59 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/holder"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="@dimen/_10sdp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
+        <RelativeLayout
+            android:padding="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Attendances"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_centerVertical="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/export"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Export"
-            android:textAllCaps="false"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_alignParentEnd="true" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attendances"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_centerVertical="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-    </RelativeLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/export"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Export"
+                android:textAllCaps="false"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingStart="@dimen/_10sdp"
+           android:paddingEnd="@dimen/_10sdp">
+
+           <TextView
+               android:id="@+id/filter"
+               android:layout_alignParentStart="true"
+               android:layout_width="wrap_content"
+               android:layout_centerVertical="true"
+               android:layout_height="wrap_content"
+               android:layout_marginEnd="@dimen/_5sdp"
+               android:text="Filter By" />
+
+           <Spinner
+               android:id="@+id/filterBy"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentEnd="true"/>
+       </RelativeLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/empty"

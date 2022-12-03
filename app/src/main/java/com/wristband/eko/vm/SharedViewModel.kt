@@ -78,10 +78,12 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun loadAttendance() {
+    fun loadAttendance(filter: String) {
         thread(start = true) {
             try {
-                val data = database.attendanceDao().attendanceWithUser()
+                val data = if(filter.lowercase() == "none") database.attendanceDao().attendanceWithUser()
+                    else database.attendanceDao().attendanceWithUserAndFilter(filter)
+
                 attendances.postValue(Result(data, true, "Operation succeeded"))
             }
             catch (e: Exception) {
@@ -94,7 +96,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         thread(start = true) {
 
             // Get User
-            val user = userDao.findByCode(code)
+            val user = userDao.findByCode(code.uppercase())
             if(user == null) {
                 verification.postValue(Result(null, false, "User does not exist"))
                 return@thread
@@ -142,7 +144,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
 
                 //
                 printWriter.close()
-                export.postValue(Result("Done", true, "Exported"))
+                export.postValue(Result("Done", true, "Data Exported to Download folder"))
             }
             catch (e: Exception) {
                 export.postValue(Result("Done", false, "Unable to Export Data"))

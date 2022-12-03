@@ -1,10 +1,10 @@
 package com.wristband.eko.data
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.wristband.eko.entities.Attendance
 import com.wristband.eko.entities.User
 import com.wristband.eko.entities.UserWithAttendances
 
@@ -12,7 +12,10 @@ import com.wristband.eko.entities.UserWithAttendances
 interface UserDao {
 
     @Query("SELECT * FROM users")
-    fun getAll(): List<User>
+    fun getAll(): DataSource.Factory<Int, User>
+
+    @Query("SELECT * FROM users")
+    fun loadAll(): List<User>
 
     @Query("SELECT COUNT(*) FROM users")
     fun count(): Int

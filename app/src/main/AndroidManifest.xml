@@ -3,7 +3,6 @@
     package="com.wristband.eko">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <application
         android:name=".MyApp"
         android:allowBackup="true"

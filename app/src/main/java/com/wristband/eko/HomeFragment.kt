@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -32,13 +35,15 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: AttendanceAdapter
     private lateinit var binding: FragmentHomeBinding
 
+    private val filters = listOf("None", "Place A", "Place B", "Place C", "Place D")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter = AttendanceAdapter(requireContext(), list)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         //
-        viewModel.loadAttendance()
+        viewModel.loadAttendance(filters[0])
     }
 
     companion object {
@@ -62,6 +67,17 @@ class HomeFragment : Fragment() {
         binding.recycler.adapter = adapter
         val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.recycler.addItemDecoration(itemDecoration)
+
+        //
+        val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, filters)
+        binding.filterBy.adapter = arrayAdapter
+        binding.filterBy.onItemSelectedListener = object : OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val item = filters[position]
+                viewModel.loadAttendance(item)
+            }
+        }
 
         //
         viewModel.attendances.observe(requireActivity()) { response ->

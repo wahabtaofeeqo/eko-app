@@ -1,6 +1,9 @@
 package com.wristband.eko.repositories
 
 import android.app.Application
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.wristband.eko.MyApp
 import com.wristband.eko.data.UserDao
 import com.wristband.eko.entities.User
@@ -13,8 +16,8 @@ class UserRepository(private val application: Application) {
         dao = app.getDatabase().userDao()
     }
 
-    fun getAll(): List<User> {
-        return  dao.getAll()
+    fun loadAll(): List<User> {
+        return  dao.loadAll()
     }
 
     fun getCount(): Int {

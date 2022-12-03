@@ -16,6 +16,9 @@ interface AttendanceDao {
     @Query("SELECT * FROM attendances INNER JOIN users ON users.uid = user_id")
     fun attendanceWithUser(): List<AttendanceWithUser>
 
+    @Query("SELECT * FROM attendances INNER JOIN users ON users.uid = user_id WHERE place = :filter")
+    fun attendanceWithUserAndFilter(filter: String): List<AttendanceWithUser>
+
     @Insert
     fun insert(attendance: Attendance)
 

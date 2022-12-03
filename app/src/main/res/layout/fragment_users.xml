@@ -20,15 +20,6 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/_10sdp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/export"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Export"
-            android:textAllCaps="false"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <FrameLayout

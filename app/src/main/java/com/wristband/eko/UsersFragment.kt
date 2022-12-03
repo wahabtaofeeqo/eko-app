@@ -29,8 +29,6 @@ import es.dmoral.toasty.Toasty
  */
 class UsersFragment : Fragment() {
 
-    private var list = mutableListOf<User>()
-
     lateinit var adapter: UserAdapter
     private lateinit var viewModel: UserViewModel
     private lateinit var binding: FragmentUsersBinding
@@ -56,19 +54,8 @@ class UsersFragment : Fragment() {
         initView()
     }
 
-    //
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if(it) {
-            viewModel.doExport()
-        }
-        else {
-            Toasty.error(requireContext(), "You need to give permission to Export").show()
-        }
-    }
-
     private fun initView() {
-        viewModel.loadUsers()
-        adapter = UserAdapter(requireActivity().applicationContext, list)
+        adapter = UserAdapter(requireActivity().applicationContext)
 
         //
         binding.recycler.adapter = adapter
@@ -78,22 +65,11 @@ class UsersFragment : Fragment() {
         //
         viewModel.users.observe(requireActivity()) { response ->
             if(response == null) return@observe
-            list.addAll(response.body)
-            if(list.size > 0) {
+            adapter.submitList(response)
+
+            if(adapter.itemCount > 0) {
                 binding.empty.visibility = View.GONE
                 binding.recycler.visibility = View.VISIBLE
-            }
-
-            adapter.notifyDataSetChanged()
-        }
-
-        //
-        binding.export.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                viewModel.doExport()
-            }
-            else {
-                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
         }
 

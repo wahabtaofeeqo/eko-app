@@ -16,22 +16,21 @@ class LaunchActivity : ComponentActivity() {
 
         installSplashScreen()
         val sessionManager = SessionManager(this)
-        if (sessionManager.isLoggedIn()) {
+        val intent: Intent = if (sessionManager.isLoggedIn()) {
             if(sessionManager.getRole() == Role.ADMIN.name) {
-                val intent = Intent(this, DashboardActivity::class.java)
-                startActivity(intent)
+                Intent(this, DashboardActivity::class.java)
+
+            } else {
+                Intent(this, MainActivity::class.java)
             }
-            else {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        else {
-            val intent = Intent(this, WelcomeActivity::class.java)
-            startActivity(intent)
+        } else {
+            Intent(this, WelcomeActivity::class.java)
         }
 
         this.createAdmin()
+        startActivity(intent)
+
+        //
         finish()
     }
 
@@ -50,7 +49,7 @@ class LaunchActivity : ComponentActivity() {
                 }
             }
             catch (e: Exception) {
-                //
+               //
             }
         }
     }

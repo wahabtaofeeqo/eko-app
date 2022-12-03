@@ -10,7 +10,7 @@ import com.wristband.eko.entities.User
 
 @TypeConverters(Converters::class)
 @Database(entities = [Agent::class, User::class,
-    Event::class, Attendance::class], version = 5)
+    Event::class, Attendance::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
