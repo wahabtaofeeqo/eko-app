@@ -30,7 +30,6 @@ import es.dmoral.toasty.Toasty
  */
 class HomeFragment : Fragment() {
 
-    private var list = mutableListOf<AttendanceWithUser>()
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: AttendanceAdapter
     private lateinit var binding: FragmentHomeBinding
@@ -39,11 +38,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = AttendanceAdapter(requireContext(), list)
+        adapter = AttendanceAdapter()
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
-        //
-        viewModel.loadAttendance(filters[0])
     }
 
     companion object {
@@ -74,23 +70,12 @@ class HomeFragment : Fragment() {
         binding.filterBy.onItemSelectedListener = object : OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val item = filters[position]
-                viewModel.loadAttendance(item)
+                load(filters[position])
             }
         }
 
-        //
-        viewModel.attendances.observe(requireActivity()) { response ->
-            if(response == null) return@observe
-
-            list.clear()
-            list.addAll(response.body)
-            if(list.size > 0) {
-                binding.empty.visibility = View.GONE
-                binding.recycler.visibility = View.VISIBLE
-            }
-            adapter.notifyDataSetChanged()
-        }
+       //load
+        load(filters[0])
 
         //
         binding.export.setOnClickListener {
@@ -110,6 +95,17 @@ class HomeFragment : Fragment() {
             }
             else {
                 Toasty.error(requireContext(), response.message).show()
+            }
+        }
+    }
+
+    private fun load(filter: String) {
+        viewModel.loadAttendance(filter).observe(requireActivity()) { response ->
+            if(response == null) return@observe
+            adapter.submitList(response)
+            if(adapter.itemCount > 0) {
+                binding.empty.visibility = View.GONE
+                binding.recycler.visibility = View.VISIBLE
             }
         }
     }

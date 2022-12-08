@@ -26,6 +26,4 @@ class AgentRepository(private val application: Application) {
     fun findByUsername(username: String): Agent? {
         return  dao.findByUsername(username)
     }
-
-
 }

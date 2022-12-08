@@ -23,13 +23,12 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     private val dao: UserDao
     private val repository: UserRepository
     init {
-        repository = UserRepository(application);
+        repository = UserRepository(application)
         dao = (application as MyApp).getDatabase().userDao()
     }
 
     val total = MutableLiveData<Int>()
     val export = MutableLiveData<Result<Any>>()
-    val users: LiveData<PagedList<User>> = dao.getAll().toLiveData(pageSize = 10)
 
     fun getCount() {
         thread(start = true) {
@@ -41,5 +40,9 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
                 total.postValue(0)
             }
         }
+    }
+
+    fun loadUsers(): LiveData<PagedList<User>> {
+        return repository.loadAll()
     }
 }

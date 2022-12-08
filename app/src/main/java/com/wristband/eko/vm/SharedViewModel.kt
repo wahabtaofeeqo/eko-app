@@ -4,7 +4,10 @@ import android.app.Application
 import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.wristband.eko.MyApp
 import com.wristband.eko.data.AppDatabase
 import com.wristband.eko.data.AttendanceDao
@@ -38,8 +41,8 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
 
     val export = MutableLiveData<Result<Any>>()
     val event = MutableLiveData<Result<Event?>>()
-    val attendances = MutableLiveData<Result<List<AttendanceWithUser>>>()
     val verification = MutableLiveData<Result<Attendance?>>()
+    val attendances: LiveData<PagedList<AttendanceWithUser>> = attendanceDao.attendanceWithUser().toLiveData(pageSize = 10)
 
     fun getEvent() {
         thread(start = true) {
@@ -78,18 +81,12 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun loadAttendance(filter: String) {
-        thread(start = true) {
-            try {
-                val data = if(filter.lowercase() == "none") database.attendanceDao().attendanceWithUser()
-                    else database.attendanceDao().attendanceWithUserAndFilter(filter)
+    fun loadAttendance(filter: String): LiveData<PagedList<AttendanceWithUser>> {
+        val data = if(filter.lowercase() == "none") database.attendanceDao().attendanceWithUser()
+        else database.attendanceDao().attendanceWithUserAndFilter(filter)
 
-                attendances.postValue(Result(data, true, "Operation succeeded"))
-            }
-            catch (e: Exception) {
-                attendances.postValue(Result(listOf(), false, "Operation not succeeded"))
-            }
-        }
+        //
+        return data.toLiveData(pageSize = 10)
     }
 
     fun doVerify(code: String, place: String) {
@@ -137,7 +134,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
                 val printWriter = PrintWriter(FileWriter(file))
 
                 var count = 1;
-                for(user in attendanceDao.attendanceWithUser()) {
+                for(user in attendanceDao.getAllAttendanceWithUser()) {
                     printWriter.println("${count}, ${user.name}, ${user.code}, ${user.place}")
                     count++
                 }

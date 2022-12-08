@@ -16,8 +16,8 @@ class UserRepository(private val application: Application) {
         dao = app.getDatabase().userDao()
     }
 
-    fun loadAll(): List<User> {
-        return  dao.loadAll()
+    fun loadAll(): LiveData<PagedList<User>> {
+        return dao.getAll().toLiveData(pageSize = 10)
     }
 
     fun getCount(): Int {

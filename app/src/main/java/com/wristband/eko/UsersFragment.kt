@@ -63,7 +63,7 @@ class UsersFragment : Fragment() {
         binding.recycler.addItemDecoration(itemDecoration)
 
         //
-        viewModel.users.observe(requireActivity()) { response ->
+        viewModel.loadUsers().observe(requireActivity()) { response ->
             if(response == null) return@observe
             adapter.submitList(response)
 

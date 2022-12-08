@@ -3,11 +3,32 @@ package com.wristband.eko.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.wristband.eko.databinding.AttendanceViewBinding
 import com.wristband.eko.entities.AttendanceWithUser
+import com.wristband.eko.entities.User
+import java.text.SimpleDateFormat
+import java.util.*
 
-class AttendanceAdapter(val context: Context, private val list: List<AttendanceWithUser>): RecyclerView.Adapter<AttendanceAdapter.AttendeeVH>() {
+class AttendanceAdapter(): PagedListAdapter<AttendanceWithUser, AttendanceAdapter.AttendeeVH>(DIFF_CALLBACK) {
+
+    companion object {
+        private val  DIFF_CALLBACK = object : DiffUtil.ItemCallback<AttendanceWithUser>() {
+            // The ID property identifies when items are the same.
+            override fun areItemsTheSame(oldItem: AttendanceWithUser, newItem: AttendanceWithUser) = oldItem.user_id == newItem.user_id
+
+            // If you use the "==" operator, make sure that the object implements
+            // .equals(). Alternatively, write custom data comparison logic here.
+            override fun areContentsTheSame(oldItem: AttendanceWithUser, newItem: AttendanceWithUser) =
+                run {
+                    val oldDate = oldItem.date?.let { SimpleDateFormat("dd-MM-yyyy").format(it) }
+                    val newDate = oldItem.date?.let { SimpleDateFormat("dd-MM-yyyy").format(it) }
+                    oldDate == newDate && oldItem.code == newItem.code
+                }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttendeeVH {
         val inflater = LayoutInflater.from(parent.context)
@@ -16,19 +37,15 @@ class AttendanceAdapter(val context: Context, private val list: List<AttendanceW
     }
 
     override fun onBindViewHolder(holder: AttendeeVH, position: Int) {
-        holder.bind(list[position])
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
+        holder.bind(getItem(position))
     }
 
     class AttendeeVH(val binding: AttendanceViewBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(attendance: AttendanceWithUser) {
-            binding.name.text = attendance.name
-            binding.code.text = attendance.code
-            binding.place.text = attendance.place
-            binding.category.text = attendance.category
+        fun bind(attendance: AttendanceWithUser?) {
+            binding.name.text = attendance?.name
+            binding.code.text = attendance?.code
+            binding.place.text = attendance?.place
+            binding.category.text = attendance?.category
         }
     }
 }

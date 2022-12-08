@@ -64,10 +64,12 @@ class WelcomeActivity : AppCompatActivity() {
 
 @Composable
 fun MainScreen() {
-    val navController = rememberNavController();
+    val navController = rememberNavController()
+    val viewModel: AgentViewModel = viewModel()
+
     NavHost(navController = navController, startDestination = "welcome") {
         composable("welcome") { Welcome(navController)}
-        composable("login") { LoginScreen()}
+        composable("login") { LoginScreen(viewModel)}
     }
 }
 
@@ -126,15 +128,15 @@ fun Welcome(navController: NavController) {
 }
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(viewModel: AgentViewModel) {
 
     val places = listOf("Place A", "Place B", "Place C", "Place D")
     val mContext = LocalContext.current
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
-    var expanded by remember { mutableStateOf(false) }
-    val viewModel: AgentViewModel = viewModel()
+
     val result by viewModel.loggedIn.observeAsState()
+    var expanded by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
     var place by remember { mutableStateOf("") }
@@ -222,7 +224,8 @@ fun LoginScreen() {
             Column {
                 OutlinedTextField(
                     modifier = Modifier
-                        .fillMaxWidth().clickable {
+                        .fillMaxWidth()
+                        .clickable {
                             expanded = !expanded
                         },
                     value = place,
