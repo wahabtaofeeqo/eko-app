@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: AttendanceAdapter
     private lateinit var binding: FragmentHomeBinding
 
-    private val filters = listOf("None", "Place A", "Place B", "Place C", "Place D")
+    private val filters = listOf("None", "Eko Hotel (Pride Land)", "Car park B", "Theme park")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

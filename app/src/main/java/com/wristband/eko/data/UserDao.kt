@@ -5,11 +5,19 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
+import com.wristband.eko.entities.Family
 import com.wristband.eko.entities.User
 import com.wristband.eko.entities.UserWithAttendances
 
 @Dao
 interface UserDao {
+
+    @Query("SELECT * FROM users WHERE uid = :id LIMIT 1")
+    fun get(id: Int): User?
+
+    @Query("SELECT * FROM users WHERE code = :code LIMIT 1")
+    fun getByCode(code: String): User?
 
     @Query("SELECT * FROM users")
     fun getAll(): DataSource.Factory<Int, User>
@@ -22,6 +30,9 @@ interface UserDao {
 
     @Insert
     fun insert(user: User)
+
+    @Update
+    fun update(user: User)
 
     @Delete
     fun delete(user: User)

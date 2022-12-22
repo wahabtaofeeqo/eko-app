@@ -8,9 +8,8 @@
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -19,35 +18,11 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1">
         <TextView
             android:id="@+id/category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Xmas" />
-    </RelativeLayout>
-
-   <RelativeLayout
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:layout_weight="1">
-       <TextView
-           android:id="@+id/code"
-           android:gravity="center"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="XSM-0001" />
-   </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/place"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,10 +34,35 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/size"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Xmas" />
+            android:text="1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/linked"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Link"
+            android:padding="@dimen/_5sdp"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
     </RelativeLayout>
 </LinearLayout>

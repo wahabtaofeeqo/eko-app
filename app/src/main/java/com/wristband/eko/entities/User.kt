@@ -11,11 +11,14 @@ data class User(
     var uid: Int = 0,
 
     @ColumnInfo(name = "name")
-    val name: String?,
+    var name: String? = null,
 
     @ColumnInfo(name = "code")
     val code: String?,
 
     @ColumnInfo(name = "category")
-    val category: String? = null
+    val category: String? = null,
+
+    @ColumnInfo(name = "family_id")
+    var familyId: Int = 0
 )

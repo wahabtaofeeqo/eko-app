@@ -34,9 +34,11 @@ class UserAdapter(context: Context): PagedListAdapter<User, UserAdapter.UserVH>(
 
     class UserVH(val binding: UserViewBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User?) {
-            binding.name.text = user?.name
-            binding.code.text = user?.code
-            binding.category.text = user?.category
+            if(user != null) {
+                binding.code.text = user.code
+                binding.category.text = user.category
+                binding.name.text = if(user.name == null) "N/A" else user.name
+            }
         }
     }
 }

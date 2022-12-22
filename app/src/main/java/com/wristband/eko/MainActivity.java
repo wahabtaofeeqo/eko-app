@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
@@ -17,6 +19,8 @@ import com.wristband.eko.databinding.ActivityMainBinding;
 import com.wristband.eko.entities.Attendance;
 import com.wristband.eko.entities.User;
 import com.wristband.eko.vm.SharedViewModel;
+
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -58,13 +62,24 @@ public class MainActivity extends AppCompatActivity {
             binding.progress.setVisibility(View.GONE);
         });
 
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                AppDatabase db = ((MyApp) getApplication()).getDatabase();
-//                db.userDao().insert(new User(0, "Taofeek", "xyz", "XMAS"));
-//            }
-//        }.start();
+        binding.code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                if(sequence.toString().trim().length() >= 6) {
+                    doVerify();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private void doVerify() {
@@ -74,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             binding.progress.setVisibility(View.VISIBLE);
 
             //
-            viewModel.doVerify(code, sessionManager.getPlace());
+            viewModel.doVerify(code, Objects.requireNonNull(sessionManager.getPlace()));
         }
     }
 }

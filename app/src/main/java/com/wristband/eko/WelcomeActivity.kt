@@ -102,7 +102,7 @@ fun Welcome(navController: NavController) {
             Spacer(modifier = Modifier.padding(10.dp))
 
             Text(text = stringResource(
-                id = R.string.lorem_small),
+                id = R.string.about),
                 style = TextStyle(
                     color = Color.Gray,
                 ),
@@ -130,7 +130,7 @@ fun Welcome(navController: NavController) {
 @Composable
 fun LoginScreen(viewModel: AgentViewModel) {
 
-    val places = listOf("Place A", "Place B", "Place C", "Place D")
+    val places = listOf("Eko Hotel (Pride Land)", "Car park B", "Theme park")
     val mContext = LocalContext.current
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope: CoroutineScope = rememberCoroutineScope()

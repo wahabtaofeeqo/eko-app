@@ -17,6 +17,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.wristband.eko.data.SessionManager
 import com.wristband.eko.databinding.ActivityDashboardBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -45,7 +47,7 @@ class DashboardActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_home,
                 R.id.nav_agent,
-                R.id.nav_event,
+                R.id.nav_families,
                 R.id.nav_users,
                 R.id.nav_setting), drawerLayout
         )
@@ -72,6 +74,7 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
         return super.onOptionsItemSelected(item)
     }
 

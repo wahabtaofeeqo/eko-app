@@ -3,14 +3,11 @@ package com.wristband.eko.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.wristband.eko.entities.Agent
-import com.wristband.eko.entities.Attendance
-import com.wristband.eko.entities.Event
-import com.wristband.eko.entities.User
+import com.wristband.eko.entities.*
 
 @TypeConverters(Converters::class)
-@Database(entities = [Agent::class, User::class,
-    Event::class, Attendance::class], version = 2, exportSchema = false)
+@Database(entities = [Agent::class, User::class, Family::class,
+    Event::class, Attendance::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
@@ -20,5 +17,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun agentDao(): AgentDao
     abstract fun eventDao(): EventDao
+    abstract fun familyDao(): FamilyDao
     abstract fun attendanceDao(): AttendanceDao
 }

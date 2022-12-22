@@ -22,6 +22,9 @@
         malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
         gravida. Pellentesque id tellus orci.
     </string>
+    <string name="about">
+        We produce top notch quality tickets, Lanyards and general branding of Merchandise. Over the years we have provided wristbands and tickets for top events.
+    </string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -63,4 +66,10 @@
     <string name="code">User-ID</string>
     <string name="action_logout">Logout</string>
     <string name="place">Place</string>
+    <string name="families">Family</string>
+    <string name="menu_families">Families</string>
+    <string name="title_activity_family_link">FamilyLinkActivity</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

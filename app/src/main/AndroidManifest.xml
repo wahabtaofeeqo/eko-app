@@ -3,6 +3,7 @@
     package="com.wristband.eko">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -13,6 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Eko">
         <activity
+            android:name=".FamilyLinkActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Eko">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".WelcomeActivity"
             android:exported="false"
             android:theme="@style/Theme.Eko"
@@ -21,7 +30,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".DashboardActivity"
             android:exported="false"
@@ -51,6 +59,7 @@
             android:theme="@style/Theme.Eko.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

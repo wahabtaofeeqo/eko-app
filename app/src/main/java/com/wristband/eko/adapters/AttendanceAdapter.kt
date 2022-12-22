@@ -1,6 +1,7 @@
 package com.wristband.eko.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -42,10 +43,17 @@ class AttendanceAdapter(): PagedListAdapter<AttendanceWithUser, AttendanceAdapte
 
     class AttendeeVH(val binding: AttendanceViewBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(attendance: AttendanceWithUser?) {
-            binding.name.text = attendance?.name
-            binding.code.text = attendance?.code
-            binding.place.text = attendance?.place
-            binding.category.text = attendance?.category
+            if(attendance != null) {
+                var name = attendance.name
+                if(name == null) name = "N/A"
+
+                binding.name.text = name
+                binding.code.text = attendance.code
+                binding.place.text = attendance.place
+                binding.category.text = attendance.category
+                val todayDate = attendance.date?.let { SimpleDateFormat("E, d H:m a").format(it) }
+                binding.date.text = todayDate
+            }
         }
     }
 }
