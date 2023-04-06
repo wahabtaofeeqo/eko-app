@@ -19,6 +19,9 @@ data class AttendanceWithUser(
     @ColumnInfo(name = "code")
     val code: String?,
 
+    @ColumnInfo(name = "reason")
+    val reason: String?,
+
     @ColumnInfo(name = "place")
     val place: String?,
 

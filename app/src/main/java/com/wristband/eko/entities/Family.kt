@@ -13,13 +13,13 @@ data class Family(
     var fid: Int = 0,
 
     @ColumnInfo()
-    val firstname: String?,
-
-    @ColumnInfo()
-    var lastname: String? = null,
+    val fullname: String?,
 
     @ColumnInfo()
     var rooms: String? = null,
+
+    @ColumnInfo(name = "building")
+    var building: String? = null,
 
     @ColumnInfo(name = "room_type")
     var roomsType: String? = null,

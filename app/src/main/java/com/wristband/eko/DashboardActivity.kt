@@ -1,14 +1,12 @@
 package com.wristband.eko
 
-import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -17,11 +15,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.wristband.eko.data.SessionManager
 import com.wristband.eko.databinding.ActivityDashboardBinding
-import java.text.SimpleDateFormat
-import java.util.*
 
 class DashboardActivity : AppCompatActivity() {
 
+    private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDashboardBinding
 
@@ -40,7 +37,7 @@ class DashboardActivity : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_dashboard)
+        navController = findNavController(R.id.nav_host_fragment_content_dashboard)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
@@ -49,7 +46,8 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.nav_agent,
                 R.id.nav_families,
                 R.id.nav_users,
-                R.id.nav_setting), drawerLayout
+                R.id.nav_setting,
+                R.id.nav_add_family), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -73,6 +71,14 @@ class DashboardActivity : AppCompatActivity() {
             //
             startActivity(intent)
             finish()
+        }
+
+        if(item.itemId == R.id.action_settings) {
+            navController.navigate(R.id.nav_setting)
+        }
+
+        if(item.itemId == R.id.action_add_family) {
+            navController.navigate(R.id.nav_add_family)
         }
 
         return super.onOptionsItemSelected(item)

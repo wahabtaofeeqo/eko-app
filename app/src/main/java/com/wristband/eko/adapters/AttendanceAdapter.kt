@@ -44,13 +44,11 @@ class AttendanceAdapter(): PagedListAdapter<AttendanceWithUser, AttendanceAdapte
     class AttendeeVH(val binding: AttendanceViewBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(attendance: AttendanceWithUser?) {
             if(attendance != null) {
-                var name = attendance.name
-                if(name == null) name = "N/A"
-
-                binding.name.text = name
                 binding.code.text = attendance.code
                 binding.place.text = attendance.place
                 binding.category.text = attendance.category
+                binding.name.text = attendance.name ?: "N/A"
+                binding.reason.text = attendance.reason ?: "N/A"
                 val todayDate = attendance.date?.let { SimpleDateFormat("E, d H:m a").format(it) }
                 binding.date.text = todayDate
             }

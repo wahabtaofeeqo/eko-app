@@ -82,7 +82,8 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:src="@drawable/empty_box" />
+            android:src="@drawable/empty_box"
+            android:contentDescription="@string/app_name" />
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView

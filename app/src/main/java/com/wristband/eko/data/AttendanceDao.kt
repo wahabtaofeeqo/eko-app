@@ -14,10 +14,11 @@ interface AttendanceDao {
     @Query("SELECT * FROM attendances WHERE user_id = :userId ORDER BY aid DESC LIMIT 1")
     fun getLastAttendance(userId: Int): Attendance?
 
-    @Query("SELECT * FROM attendances INNER JOIN users ON users.uid = user_id")
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM attendances INNER JOIN users ON users.uid = user_id ORDER BY aid DESC")
     fun attendanceWithUser(): DataSource.Factory<Int, AttendanceWithUser>
 
-    @Query("SELECT * FROM attendances INNER JOIN users ON users.uid = user_id")
+    @Query("SELECT * FROM attendances INNER JOIN users ON users.uid = user_id ORDER BY aid DESC")
     fun getAllAttendanceWithUser(): List<AttendanceWithUser>
 
     @Query("SELECT * FROM attendances INNER JOIN users ON users.uid = user_id WHERE place = :filter")

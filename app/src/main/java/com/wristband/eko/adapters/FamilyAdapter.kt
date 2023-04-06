@@ -22,7 +22,7 @@ class FamilyAdapter(val context: Context): PagedListAdapter<Family, FamilyAdapte
 
             // If you use the "==" operator, make sure that the object implements
             // .equals(). Alternatively, write custom data comparison logic here.
-            override fun areContentsTheSame(oldItem: Family, newItem: Family) = oldItem.firstname == newItem.firstname
+            override fun areContentsTheSame(oldItem: Family, newItem: Family) = oldItem.fullname == newItem.fullname
         }
     }
 
@@ -40,7 +40,7 @@ class FamilyAdapter(val context: Context): PagedListAdapter<Family, FamilyAdapte
 
         fun bind(family: Family?) {
             if (family != null) {
-                binding.name.text = family.firstname
+                binding.name.text = family.fullname
                 binding.category.text = family.packageType
                 binding.size.text = family.familySize.toString()
                 binding.linked.text = if (family.linked) "Yes" else "No"

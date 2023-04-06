@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:padding="@dimen/_10sdp">
 
@@ -27,7 +27,7 @@
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Xmas" />
+            tools:text="Xmas" />
     </RelativeLayout>
 
    <RelativeLayout
@@ -39,7 +39,7 @@
            android:gravity="center"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="XSM-0001" />
+           tools:text="XSM-0001" />
    </RelativeLayout>
 
     <RelativeLayout
@@ -51,7 +51,19 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Xmas" />
+            tools:text="Xmas" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/reason"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Xmas" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -63,6 +75,6 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Xmas" />
+            tools:text="Xmas" />
     </RelativeLayout>
 </LinearLayout>

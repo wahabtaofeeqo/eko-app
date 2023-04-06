@@ -20,7 +20,6 @@ import kotlin.concurrent.thread
 
 class SharedViewModel(application: Application): AndroidViewModel(application) {
 
-
     private val database: AppDatabase
 
     private val userDao: UserDao
@@ -42,6 +41,9 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
     val attendances: LiveData<PagedList<AttendanceWithUser>> = attendanceDao.attendanceWithUser().toLiveData(pageSize = 10)
 
     val familyLink = MutableLiveData<Result<Any?>>()
+
+    private val _addFamily = MutableLiveData<Result<Family?>>()
+    val addFamily: LiveData<Result<Family?>> = _addFamily
 
     fun getEvent() {
         thread(start = true) {
@@ -88,7 +90,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         return data.toLiveData(pageSize = 10)
     }
 
-    fun doVerify(code: String, place: String) {
+    fun doVerify(code: String, place: String, reason: String) {
         thread(start = true) {
 
             // Get User
@@ -101,14 +103,14 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
             // Check Attendance
             val attendance = attendanceDao.getLastAttendance(user.uid)
             if(attendance == null) {
-                attendanceDao.insert(Attendance(user_id = user.uid, date = Date(), place = place))
+                attendanceDao.insert(Attendance(user_id = user.uid, reason = reason, date = Date(), place = place))
                 verification.postValue(Result(null, true, "Welcome ${user.name}"))
                 return@thread
             }
 
             val todayDate = SimpleDateFormat("MM-dd-yyyy").format(Date())
             val lastAttendance = attendance.date?.let { SimpleDateFormat("MM-dd-yyyy").format(it) }
-            if(todayDate == lastAttendance && attendance.place.lowercase() == place.lowercase()) {
+            if(todayDate == lastAttendance && attendance.place.lowercase() == place.lowercase() && attendance.reason == reason) {
                 verification.postValue(Result(null, false, "You already clocked in Today"))
             }
             else {
@@ -129,7 +131,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
                     }
                 }
 
-                attendanceDao.insert(Attendance(user_id = user.uid, date = Date(), place = place))
+                attendanceDao.insert(Attendance(user_id = user.uid, reason = reason, date = Date(), place = place))
                 verification.postValue(Result(null, true, "Welcome"))
             }
         }
@@ -148,19 +150,34 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
                 val file = File(folder,"attendance.csv")
                 val printWriter = PrintWriter(FileWriter(file))
 
-                var count = 1;
+                var count = 0
                 for(user in attendanceDao.getAllAttendanceWithUser()) {
-                    printWriter.println("${count}, ${user.name}, ${user.code}, ${user.place}")
                     count++
+                    val date = user.date?.let { SimpleDateFormat("E, dd MMM yyyy H:m a").format(it) }
+                    printWriter.println("${count}, ${user.name}, ${user.code}, ${user.place}, ${user.reason}, $date")
                 }
 
                 //
                 printWriter.close()
-                export.postValue(Result("Done", true, "Data Exported to Download folder"))
+                export.postValue(Result("Done", true, "Data exported to Downloads folder"))
             }
             catch (e: Exception) {
                 export.postValue(Result("Done", false, "Unable to Export Data"))
             }
+        }
+    }
+
+    fun createFamily(family: Family) {
+        thread (start = true) {
+
+            val familyCheck = familyDao.findByName(family.fullname!!)
+            if (familyCheck != null) {
+                _addFamily.postValue(Result(null, false, "Family already exist"))
+                return@thread
+            }
+
+            familyDao.insert(family)
+            _addFamily.postValue(Result(family, true, "Operation succeeded"))
         }
     }
 
@@ -181,7 +198,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
                 user = userDao.getByCode(i.uppercase())
                 if(user != null) {
                     user.familyId = familyId
-                    user.name = family.firstname + " Family"
+                    user.name = family.fullname + " Family"
                     userDao.update(user)
                     linked = true
                 }

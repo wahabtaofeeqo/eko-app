@@ -23,11 +23,11 @@
         android:label="@string/menu_setting"
         tools:layout="@layout/fragment_settings" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_event"-->
-<!--        android:name="com.wristband.eko.EventFragment"-->
-<!--        android:label="@string/menu_event"-->
-<!--        tools:layout="@layout/fragment_event" />-->
+    <fragment
+        android:id="@+id/nav_add_family"
+        android:name="com.wristband.eko.AddFamilyFragment"
+        android:label="@string/menu_add_family"
+        tools:layout="@layout/fragment_add_family" />
 
     <fragment
         android:id="@+id/nav_families"

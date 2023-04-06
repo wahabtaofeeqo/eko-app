@@ -43,7 +43,7 @@ class FamilyLinkActivity : AppCompatActivity() {
             val familyDao = (application as MyApp).getDatabase().familyDao()
             val family = familyDao.get(familyID)
             if(family != null) {
-                binding.name.text = "The ${family.firstname} ${family.lastname} Family"
+                binding.name.text = "The ${family.fullname} Family"
             }
         }
     }

@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.bumptech.glide.Glide;
 import com.wristband.eko.data.AppDatabase;
@@ -20,14 +21,16 @@ import com.wristband.eko.entities.Attendance;
 import com.wristband.eko.entities.User;
 import com.wristband.eko.vm.SharedViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
     private SharedViewModel viewModel;
+    private ActivityMainBinding binding;
     private SessionManager sessionManager;
 
     @Override
@@ -46,12 +49,19 @@ public class MainActivity extends AppCompatActivity {
         binding.name.setText(getString(R.string.greeting, sessionManager.getName()));
         binding.place.setText(sessionManager.getPlace());
 
+        List<String> list = new ArrayList<>();
+        list.add("Breakfast");
+        list.add("Launch");
+        list.add("Dinner");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        binding.reason.setAdapter(adapter);
+
         viewModel.getVerification().observe(this, response -> {
             if(response == null) return;
 
             if(response.getStatus()) {
-                Toasty.success(this, response.getMessage()).show();
                 binding.code.setText("");
+                Toasty.success(this, response.getMessage()).show();
             }
             else {
                 Toasty.error(this, response.getMessage()).show();
@@ -70,14 +80,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
-                if(sequence.toString().trim().length() >= 6) {
-                    doVerify();
-                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if(editable.toString().trim().length() >= 6) {
+                    doVerify();
+                }
             }
         });
     }
@@ -89,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
             binding.progress.setVisibility(View.VISIBLE);
 
             //
-            viewModel.doVerify(code, Objects.requireNonNull(sessionManager.getPlace()));
+            String reason = binding.reason.getText().toString();
+            viewModel.doVerify(code, Objects.requireNonNull(sessionManager.getPlace()), reason);
         }
     }
 }

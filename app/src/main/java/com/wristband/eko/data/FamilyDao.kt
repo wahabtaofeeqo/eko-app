@@ -15,10 +15,10 @@ interface FamilyDao {
     @Query("SELECT * FROM families WHERE fid = :id LIMIT 1")
     fun get(id: Int): Family?
 
-    @Query("SELECT * FROM families")
+    @Query("SELECT * FROM families ORDER BY fid DESC")
     fun getAll():  DataSource.Factory<Int, Family>
 
-    @Query("SELECT * FROM families WHERE firstname = :name LIMIT 1")
+    @Query("SELECT * FROM families WHERE fullname = :name LIMIT 1")
     fun findByName(name: String): Family?
 
     @Insert

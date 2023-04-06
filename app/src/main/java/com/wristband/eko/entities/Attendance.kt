@@ -16,6 +16,9 @@ data class Attendance(
     @ColumnInfo(name = "place")
     val place: String,
 
+    @ColumnInfo(name = "reason")
+    var reason: String? = null,
+
     @ColumnInfo()
     var date: Date?
 )
