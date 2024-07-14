@@ -16,8 +16,20 @@ data class User(
     @ColumnInfo(name = "code")
     val code: String?,
 
+    @ColumnInfo(name = "email")
+    val email: String? = null,
+
+    @ColumnInfo(name = "phone")
+    val phone: String? = null,
+
+    @ColumnInfo(name = "title")
+    val title: String? = null,
+
     @ColumnInfo(name = "category")
     val category: String? = null,
+
+    @ColumnInfo(name = "organization")
+    val organization: String? = null,
 
     @ColumnInfo(name = "family_id")
     var familyId: Int = 0

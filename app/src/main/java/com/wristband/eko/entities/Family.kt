@@ -27,10 +27,16 @@ data class Family(
     @ColumnInfo(name = "package_type")
     var packageType: String? = null,
 
-    @ColumnInfo(name = "family_size")
+    @ColumnInfo(name = "end", defaultValue = "'0'")
+    var end: Int = 0,
+
+    @ColumnInfo(name = "start", defaultValue = "'0'")
+    var start: Int = 0,
+
+    @ColumnInfo(name = "family_size", defaultValue = "'0'")
     var familySize: Int = 0,
 
-    @ColumnInfo()
+    @ColumnInfo(defaultValue = "'0'")
     var linked: Boolean = false,
 
     @ColumnInfo(name = "check_in")

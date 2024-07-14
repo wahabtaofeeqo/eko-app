@@ -30,7 +30,9 @@ import es.dmoral.toasty.Toasty;
 public class MainActivity extends AppCompatActivity {
 
     private SharedViewModel viewModel;
+
     private ActivityMainBinding binding;
+
     private SessionManager sessionManager;
 
     @Override
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable.toString().trim().length() >= 6) {
+                if(editable.toString().trim().length() >= 3) {
                     doVerify();
                 }
             }

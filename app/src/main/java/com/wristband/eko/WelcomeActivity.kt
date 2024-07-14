@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Space
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -130,7 +131,7 @@ fun Welcome(navController: NavController) {
 @Composable
 fun LoginScreen(viewModel: AgentViewModel) {
 
-    val places = listOf("Eko Hotel (Pride Land)", "Car park B", "Theme park")
+    val places = listOf("Tropical Land", "African Junction", "Theme Park")
     val mContext = LocalContext.current
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
@@ -301,6 +302,7 @@ fun showToast(context: Context, message: String) {
 }
 
 fun homePage(agent: Agent?, context: Context, place: String) {
+
     if(agent != null) {
         val intent: Intent = if (agent.role == Role.ADMIN.name) {
             Intent(context, DashboardActivity::class.java)

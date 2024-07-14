@@ -19,7 +19,6 @@ class LaunchActivity : ComponentActivity() {
         val intent: Intent = if (sessionManager.isLoggedIn()) {
             if(sessionManager.getRole() == Role.ADMIN.name) {
                 Intent(this, DashboardActivity::class.java)
-
             } else {
                 Intent(this, MainActivity::class.java)
             }
@@ -48,9 +47,7 @@ class LaunchActivity : ComponentActivity() {
                     dao.insert(agent)
                 }
             }
-            catch (e: Exception) {
-               //
-            }
+            catch (e: Exception) {}
         }
     }
 }
