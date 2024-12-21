@@ -28,6 +28,9 @@ data class User(
     @ColumnInfo(name = "category")
     val category: String? = null,
 
+    @ColumnInfo(name = "qr_path")
+    val path: String? = null,
+
     @ColumnInfo(name = "organization")
     val organization: String? = null,
 
