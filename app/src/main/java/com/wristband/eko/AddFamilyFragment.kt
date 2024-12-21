@@ -57,6 +57,7 @@ class AddFamilyFragment : Fragment() {
             val result = it ?: return@observe
             binding.progress.isVisible = false
             Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
+            parentFragmentManager.popBackStack()
         }
     }
 }

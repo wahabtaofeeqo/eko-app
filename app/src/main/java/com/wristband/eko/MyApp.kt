@@ -11,7 +11,7 @@ class MyApp: Application() {
     override fun onCreate() {
         super.onCreate()
         database = Room.databaseBuilder(this, AppDatabase::class.java, AppDatabase.DATABASE_NAME)
-            .createFromAsset("wristband.db").fallbackToDestructiveMigration().build()
+            .createFromAsset("database.sqlite").build()
     }
 
     fun getDatabase(): AppDatabase {

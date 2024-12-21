@@ -43,11 +43,10 @@ class DashboardActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
+                R.id.nav_users,
                 R.id.nav_agent,
                 R.id.nav_families,
-                R.id.nav_users,
-                R.id.nav_setting,
-                R.id.nav_add_family), drawerLayout
+                R.id.nav_setting), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

@@ -131,7 +131,7 @@ fun Welcome(navController: NavController) {
 @Composable
 fun LoginScreen(viewModel: AgentViewModel) {
 
-    val places = listOf("Tropical Land", "African Junction", "Theme Park")
+    val places = listOf("Tropical Land", "African Junction", "Theme Park", "Car park")
     val mContext = LocalContext.current
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope: CoroutineScope = rememberCoroutineScope()

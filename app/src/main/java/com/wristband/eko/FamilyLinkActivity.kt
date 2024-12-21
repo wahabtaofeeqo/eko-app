@@ -3,24 +3,23 @@ package com.wristband.eko
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.ArrayAdapter
-import com.google.android.material.snackbar.Snackbar
+import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.wristband.eko.databinding.ActivityFamilyLinkBinding
 import com.wristband.eko.vm.SharedViewModel
 import es.dmoral.toasty.Toasty
 import kotlin.concurrent.thread
 
+
 class FamilyLinkActivity : AppCompatActivity() {
 
     private var familyID: Int = 0
     val list = mutableListOf<String>()
+
+    private var shouldCreate = false
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: ArrayAdapter<String>
     private lateinit var binding: ActivityFamilyLinkBinding
@@ -53,14 +52,19 @@ class FamilyLinkActivity : AppCompatActivity() {
             val code = binding.code.text.toString()
             if (code.trim().isNotEmpty()) {
                 list.add(code)
+                binding.code.text?.clear()
                 adapter.notifyDataSetChanged()
             }
         }
 
         binding.btn.setOnClickListener {
             if(list.size > 0) {
-                viewModel.linkFamily(familyID, list)
+                viewModel.linkFamily(familyID, list, shouldCreate)
             }
+        }
+
+        binding.create.setOnCheckedChangeListener { _, isChecked ->
+            shouldCreate = isChecked
         }
 
         binding.code.addTextChangedListener(textWatcher)
@@ -69,6 +73,7 @@ class FamilyLinkActivity : AppCompatActivity() {
 
             if (response.status) {
                 Toasty.success(this, response.message).show()
+                finish()
             }
             else {
                 Toasty.info(this, response.message).show()

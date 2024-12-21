@@ -181,7 +181,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun linkFamily(familyId: Int, codes: List<String>) {
+    fun linkFamily(familyId: Int, codes: List<String>, shouldCreate: Boolean) {
         thread (start = true) {
 
             // Check Family
@@ -201,6 +201,15 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
                     user.name = family.fullname + " Family"
                     userDao.update(user)
                     linked = true
+                }
+                else {
+                    if(shouldCreate) {
+                        userDao.insert(User(
+                            name = family.fullname,
+                            code = i.uppercase(),
+                            familyId = family.fid,
+                        ))
+                    }
                 }
             }
 

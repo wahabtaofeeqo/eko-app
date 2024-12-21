@@ -79,4 +79,5 @@
     <string name="label_package">Package</string>
     <string name="label_family_size">Family Size</string>
     <string name="action_save">Save</string>
+    <string name="should_create_user">Should Create User</string>
 </resources>
